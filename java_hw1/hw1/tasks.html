@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1 for rb549</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for rb549</h1>
+
+<p>Your personal task is to develop a system to manage modules and students taking these modules.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Java Classes [13 marks]</h2>
+
+<p>Create a Java class named <code>co2103.hw1.domain.Student</code> with the following private fields:
+<ol>
+  <li><code>String name</code></li>
+  <li><code>String facebook</code></li>
+  <li><code>String program</code></li>
+  <li><code>int hours</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create a Java class named <code>co2103.hw1.domain.Module</code> with the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String title</code></li>
+  <li><code>String convenor</code></li>
+  <li><code>List&lt;Student&gt; students</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists in the project). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Module&gt; modules</code> in class <code>co2103.hw1.Hw1Application</code>. Initialise the list inside class <code>co2103.hw1.Hw1Application</code> to contain one module with two students. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.ModuleController</code> and add methods with request mappings for the following behaviour:
+<ol>
+  <li>GET requests for URL <code>"/modules"</code> should show view <code>modules/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all modules from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>modules</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the title and convenor of each module followed by a link to URL <code>"/students?module={id of module}"</code>, e.g., <code>"/students?module=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newModule"</code> should show view <code>modules/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="module"</code> and <code>action="/addModule"</code> and inputs for all fields of class <code>Module</code> except for <code>students</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addModule"</code> should add a new module to the list of all modules in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/modules</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller class <code>co2103.hw1.controller.StudentController</code> and add methods with request mappings for the following behaviour:
+<ol>
+  <li>GET requests for URL <code>"/students"</code> should show view <code>students/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>module</code> determine the corresponding module from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all students of that module to the model as attribute <code>students</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the name, facebook, and program of each student. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newStudent?module={id of module whose students are listed}"</code>, e.g., <code>"/newStudent?module=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newStudent"</code> should show view <code>students/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="student"</code> and <code>action="/addStudent"</code> and inputs for all fields of class <code>Student</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>module</code> with the ID of the current module. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addStudent"</code> should add a new student to the list of students of the module identified by request parameter <code>module</code> and then redirect to <code>/modules</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Module</code> and make it available in controller <code>ModuleController</code>. [4 marks]</p>
+<p>When adding a new module validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.modules</code>. [3 marks]</li>
+    <li>The value of field <code>title</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>convenor</code> is not empty and contains <code>10</code> or more characters. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Student</code> and make it available in controller <code>StudentController</code>. [4 marks]</p>
+<p>When adding a new student validate that
+  <ol>
+    <li>The value of field <code>name</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>facebook</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>program</code> is either <code>"Computer Science"</code>, <code>"Creative Computing"</code>, or <code>"Software Engineering"</code>. [3 marks]</li>
+    <li>The value of field <code>hours</code> is between (including) 0 and 30. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
